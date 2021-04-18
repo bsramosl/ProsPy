@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, RedirectView
 from django.contrib.auth.models import User
-from .forms import UsuarioForm, LoginForm, ContraseñaForm, UsuForm
+from .forms import UsuarioForm, LoginForm, ContraseñaForm, UsuForm ,CaBatchForm
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -28,8 +28,12 @@ class TiempoCultivo(TemplateView):
     template_name = 'tiempo_cultivo.html'
 
 
-class GuardarReactor(TemplateView):
+class GuardarReactor(CreateView):
+    model = CaBatch
+    form_class = CaBatchForm
     template_name = 'cabatch_registro_modal.html'
+
+    def post(self, request, *args, **kwargs):
 
 
 class Admin(TemplateView):
