@@ -38,7 +38,6 @@ function activarBoton() {
     }
 }
 
-
 function cerrar_modal_editar() {
     $('#editar_modal').modal('hide');
 }
@@ -64,10 +63,31 @@ function abrir_modal_editar(url) {
 }
 
 
-function abrir_modal_reactor(url) {
+function abrir_modal_reactor(url, usuario) {
     $('#reactor_modal').load(url, function () {
         $(this).modal('show');
+        $('#id_y').val($('#Y').val())
+        $('#id_ks').val($('#Ks').val())
+        $('#id_umax').val($('#Umax').val())
+        $('#id_ms').val($('#ms').val())
+        $('#id_f').val($('#F').val())
+        $('#id_t').val($('#t').val())
+        $('#id_v0').val($('#V0').val())
+        $('#id_v').val($('#V').val())
+        $('#id_vf').val($('#Vf').val())
+        $('#id_so').val($('#So').val())
+        $('#id_n').val($('#N').val())
+        $('#id_x').val($('#X').val())
+        $("#id_usuario").val(usuario)
+
+
+
     });
+}
+
+
+function cerrar_modal_reactor() {
+    $('#reactor_modal').modal('hide');
 }
 
 

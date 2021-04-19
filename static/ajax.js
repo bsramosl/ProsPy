@@ -259,3 +259,18 @@ function listarBatch() {
     });
 }
 
+function registrarcareactor() {
+    $.ajax({
+        data: $('#form_reactor').serialize(),
+        url: $('#form_reactor').attr('action'),
+        type: $('#form_reactor').attr('method'),
+        success: function (response) {
+            notificacionSuccess(response.mensaje);
+            cerrar_modal_reactor();
+        },
+        error: function (error) {
+            notificacionError(error.responseJSON.mensaje);
+            mostrarErroresCreacion(error);
+        }
+    });
+}

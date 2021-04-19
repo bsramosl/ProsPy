@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, RedirectView
 from django.contrib.auth.models import User
-from .forms import UsuarioForm, LoginForm, ContraseñaForm, UsuForm ,CaBatchForm
+from .forms import UsuarioForm, LoginForm, ContraseñaForm, UsuForm, CaBatchForm
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -34,19 +34,24 @@ class GuardarReactor(CreateView):
     template_name = 'cabatch_registro_modal.html'
 
     def post(self, request, *args, **kwargs):
-        form =self.form_class(request.POST)
-        if form.is_valid():
-            reactor = CaBatch()
-            reactor.save()
-            return redirect('ProsPy:ModeloReact')
+        if request.is_ajax():
+            form = self.form_class(request.POST)
+            if form.is_valid():
+                reactor = CaBatch()
+                reactor.save()
+                mensaje = f'{self.model.__name__} guardado correctamente'
+                error = 'No hay error'
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 201
+                return response
+            else:
+                mensaje = f'{self.model.__name__} no se pudo guardar correctamente'
+                error = form.errors
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 400
+                return response
         else:
-            return render(request,self.template_name,{'form':form})
-
-    def get_form_kwargs(self):
-        kwargs = super(GuardarReactor, self).get_form_kwargs()
-        kwargs['request'] = self.request
-        return kwargs
-
+            return redirect('PosPy:ModeloReact')
 
 
 class Admin(TemplateView):
@@ -242,6 +247,7 @@ class Reactor(ListView):
         else:
             return redirect('ProsPy:LUReactor')
 
+
 class LUCaBatch(TemplateView):
     template_name = 'tabla_careactor.html'
 
@@ -255,4 +261,3 @@ class CaBatch(ListView):
             return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
         else:
             return redirect('ProsPy:LUCaBatch')
-

@@ -74,18 +74,18 @@ class CaBatchForm(forms.ModelForm):
                              widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
     descripcion = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'form-sma form-sma-titu', "rows": 5, "cols": 20}))
-    y = forms.FloatField(label='Y', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    ks = forms.FloatField(label='Ks', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    umax = forms.FloatField(label='Umax', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    ms = forms.FloatField(label='Ms', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    f = forms.FloatField(label='F', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    t = forms.FloatField(label='T', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    v0 = forms.FloatField(label='V0', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    v = forms.FloatField(label='V', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    vf = forms.FloatField(label='Vf', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    so = forms.FloatField(label='So', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    n = forms.FloatField(label='N', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    x = forms.FloatField(label='X', widget=forms.TextInput(attrs={'class': 'form-sma'}))
+    y = forms.FloatField(label='Y', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    ks = forms.FloatField(label='Ks', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    umax = forms.FloatField(label='Umax', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    ms = forms.FloatField(label='Ms', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    f = forms.FloatField(label='F', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    t = forms.FloatField(label='T', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    v0 = forms.FloatField(label='V0', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    v = forms.FloatField(label='V', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    vf = forms.FloatField(label='Vf', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    so = forms.FloatField(label='So', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    n = forms.FloatField(label='N', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
+    x = forms.FloatField(label='X', widget=forms.TextInput(attrs={'class': 'form-sma','disabled': 'true'}))
     reactor = forms.ModelChoiceField(queryset=Reactor.objects.all(),widget=forms.Select(attrs={'class':'form-sma form-select'}))
     organismo = forms.ModelChoiceField(queryset=Bacteria.objects.all(),widget=forms.Select(attrs={'class':'form-sma form-select'}))
     usuario = forms.ModelChoiceField(queryset=User.objects.all(),widget=forms.Select(attrs={'disabled': 'true','class':'form-sma form-select'}))
@@ -94,7 +94,3 @@ class CaBatchForm(forms.ModelForm):
         model = CaBatch
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request')
-        super(CaBatchForm, self).__init__(*args, **kwargs)
-        self.fields['usuario'].initial = self.request.user
