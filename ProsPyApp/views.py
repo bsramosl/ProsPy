@@ -34,6 +34,13 @@ class GuardarReactor(CreateView):
     template_name = 'cabatch_registro_modal.html'
 
     def post(self, request, *args, **kwargs):
+        form =self.form_class(request.POST)
+        if form.is_valid():
+            reactor = CaBatch()
+            reactor.save()
+            return redirect('ProsPy:ModeloReact')
+        else:
+            return render(request,self.template_name,{'form':form})
 
 
 class Admin(TemplateView):
