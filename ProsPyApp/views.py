@@ -42,6 +42,12 @@ class GuardarReactor(CreateView):
         else:
             return render(request,self.template_name,{'form':form})
 
+    def get_form_kwargs(self):
+        kwargs = super(GuardarReactor, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+
 
 class Admin(TemplateView):
     model = User

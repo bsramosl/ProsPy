@@ -225,7 +225,6 @@ function listarBatch() {
                 fila += '<td>' + (i + 1) + '</td>>';
                 fila += '<td>' + response[i]["fields"]['titulo'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['descripcion'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['usuario'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['y'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['ks'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['umax'] + '</td>>';
