@@ -109,12 +109,14 @@ function listarTipo() {
                 $('#tablatipo').DataTable().destroy();
             }
             $('#tablatipo tbody').html("");
+            console.log(response)
             for (let i = 0; i < response.length; i++) {
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
                 fila += '<td>' + response[i]["fields"]['descripcion'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['especificaciontecnica'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['tiporeactor'] + '</td>>';
+                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editartiporeactor(\'/ProsPy/EditarTipoReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarUsuario/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>>';
                 fila += '</tr>';
                 $('#tablatipo tbody').append(fila);
             }
@@ -210,6 +212,7 @@ function listarReactor() {
     });
 }
 
+
 function listarBatch() {
     $.ajax({
         url: "/ProsPy/CaBatch/",
@@ -237,8 +240,9 @@ function listarBatch() {
                 fila += '<td>' + response[i]["fields"]['so'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['n'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['x'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['reactor'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['organismo'] + '</td>>';
+                fila += '<td>' + response[i]["fields"]['reactor'] + '</td>>';
+                fila += '<td>' + response[i]["fields"]['usuario'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['usuario'] + '</td>>';
                 fila += '</tr>';
                 $('#tablabatch tbody').append(fila);
@@ -264,9 +268,64 @@ function registrarcareactor() {
         data: $('#form_reactor').serialize(),
         url: $('#form_reactor').attr('action'),
         type: $('#form_reactor').attr('method'),
+
         success: function (response) {
             notificacionSuccess(response.mensaje);
             cerrar_modal_reactor();
+        },
+        error: function (error) {
+            notificacionError(error.responseJSON.mensaje);
+            mostrarErroresCreacion(error);
+        }
+    });
+}
+
+
+function editarcabatch() {
+    $.ajax({
+        data: $('#form_editar').serialize(),
+        url: $('#form_editar').attr('action'),
+        type: $('#form_editar').attr('method'),
+        success: function (response) {
+            notificacionSuccess(response.mensaje);
+            listarBatch();
+            cerrar_modal_editar();
+        },
+        error: function (error) {
+            notificacionError(error.responseJSON.mensaje);
+            mostrarErroresCreacion(error);
+            activarBoton();
+        }
+    });
+}
+
+function eliminar(pk) {
+    $.ajax({
+        data: {
+            csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
+        },
+        url: '/ProsPy/EliminarUsuario/' + pk + '/',
+        type: 'post',
+        success: function (response) {
+            notificacionSuccess(response.mensaje);
+            listarBatch();
+            cerrar_modal_eliminar();
+        },
+        error: function (error) {
+            notificacionError(error.responseJSON.mensaje);
+        }
+    });
+}
+
+function editartiporeactor() {
+    $.ajax({
+        data: $('#form_editartipo').serialize(),
+        url: $('#form_editartipo').attr('action'),
+        type: $('#form_editartipo').attr('method'),
+        success: function (response) {
+            notificacionSuccess(response.mensaje);
+            listarTipo();
+            cerrar_modal_editartiporeactor()
         },
         error: function (error) {
             notificacionError(error.responseJSON.mensaje);

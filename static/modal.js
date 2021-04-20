@@ -8,7 +8,6 @@ function mostrarErroresCreacion(errores) {
 }
 
 function notificacionError(mensaje) {
-
     Swal.fire({
         position: 'center',
         icon: 'warning',
@@ -16,7 +15,6 @@ function notificacionError(mensaje) {
         showConfirmButton: false,
         timer: 3000
     });
-
 }
 
 function notificacionSuccess(mensaje) {
@@ -66,21 +64,23 @@ function abrir_modal_editar(url) {
 function abrir_modal_reactor(url, usuario) {
     $('#reactor_modal').load(url, function () {
         $(this).modal('show');
-        $('#id_y').val($('#Y').val())
-        $('#id_ks').val($('#Ks').val())
-        $('#id_umax').val($('#Umax').val())
-        $('#id_ms').val($('#ms').val())
-        $('#id_f').val($('#F').val())
-        $('#id_t').val($('#t').val())
-        $('#id_v0').val($('#V0').val())
-        $('#id_v').val($('#V').val())
-        $('#id_vf').val($('#Vf').val())
-        $('#id_so').val($('#So').val())
-        $('#id_n').val($('#N').val())
-        $('#id_x').val($('#X').val())
-        $("#id_usuario").val(usuario)
+        $('#id_y').val($('#Y').val()).prop('readonly', true);
+        $('#id_ks').val($('#Ks').val()).prop('readonly', true);
+        $('#id_umax').val($('#Umax').val()).prop('readonly', true);
+        $('#id_ms').val($('#ms').val()).prop('readonly', true);
+        $('#id_f').val($('#F').val()).prop('readonly', true);
+        $('#id_t').val($('#t').val()).prop('readonly', true);
+        $('#id_v0').val($('#V0').val()).prop('readonly', true);
+        $('#id_v').val($('#V').val()).prop('readonly', true);
+        $('#id_vf').val($('#Vf').val()).prop('readonly', true);
+        $('#id_so').val($('#So').val()).prop('readonly', true);
+        $('#id_n').val($('#N').val()).prop('readonly', true);
+        $('#id_x').val($('#X').val()).prop('readonly', true);
+        $("#id_usuario option:contains(" + usuario + ")").prop('selected', 'selected');
+        $('#id_usuario option:not(:selected)').prop('disabled', true);
 
 
+        console.log(usuario)
 
     });
 }
@@ -90,5 +90,29 @@ function cerrar_modal_reactor() {
     $('#reactor_modal').modal('hide');
 }
 
+function abrir_modal_eliminarcabatch(url) {
+    $('#eliminar_modal').load(url, function () {
+        $(this).modal('show');
+    });
+}
+
+function abrir_modal_editartiporeactor(url) {
+    $('#editartipo_modal').load(url, function () {
+        $(this).modal('show');
+    });
+}
+
+function cerrar_modal_editartiporeactor() {
+    $('#editartipo_modal').modal('hide');
+}
 
 
+function abrir_modal_editarcabatch(url) {
+    $('#editar_modal').load(url, function () {
+        $(this).modal('show');
+    });
+}
+
+function cerrar_modal_editarcabatch() {
+    $('#editar_modal').modal('hide');
+}

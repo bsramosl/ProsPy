@@ -13,7 +13,7 @@ class TipoReactor(models.Model):
         ordering = ['tiporeactor']
 
     def __str__(self):
-        return self.tiporeactor
+        return self.descripcion
 
 
 class Bacteria(models.Model):
@@ -38,7 +38,7 @@ class Reactor(models.Model):
     foto3 = models.ImageField(upload_to='static/img/')
     foto4 = models.ImageField(upload_to='static/img/')
     estado = models.BooleanField(default=True)
-    tiporeactor = models.ForeignKey(TipoReactor, blank=False, null=False, on_delete=models.CASCADE)
+    tiporeactor = models.ForeignKey(TipoReactor,on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'reactor'
@@ -64,9 +64,9 @@ class CaBatch(models.Model):
     so = models.FloatField(max_length=10, blank=False, null=False)
     n = models.FloatField(max_length=10, blank=False, null=False)
     x = models.FloatField(max_length=10, blank=False, null=False)
-    reactor = models.ForeignKey(Reactor, blank=False, null=False, on_delete=models.CASCADE)
-    organismo = models.ForeignKey(Bacteria, blank=False, null=False, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(User, blank=False, null=False, on_delete=models.CASCADE)
+    reactor = models.ForeignKey(Reactor,on_delete=models.CASCADE)
+    organismo = models.ForeignKey(Bacteria,on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User,on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'cabatch'

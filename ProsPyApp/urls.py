@@ -20,6 +20,8 @@ urlpatterns = [
 
     path('LUTipoReactor/', login_required(views.LUTipoReactor.as_view()), name='LUTipoReactor'),
     path('TipoReactor/', login_required(views.TipoReactor.as_view()), name='TipoReactor'),
+    path('EditarTipoReactor/<int:pk>/', login_required(views.EditarTipoReactor.as_view()), name='EditarTipoReactor'),
+    path('EliminarUsuario/<int:pk>/', login_required(views.EliminarUsuario.as_view()), name='EliminarUsuario'),
 
     path('LUOrganismo/', login_required(views.LUOrganismo.as_view()), name='LUOrganismo'),
     path('Organismo/', login_required(views.Organismo.as_view()), name='Organismo'),
@@ -31,6 +33,7 @@ urlpatterns = [
     path('CaBatch/', login_required(views.CaBatch.as_view()), name='CaBatch'),
 
     path('GuardarReactor/', login_required(views.GuardarReactor.as_view()), name='GuardarReactor'),
+
 
     path('CrearUsuario/', views.CrearUsuario.as_view(), name=' CrearUsuario'),
     path('CambiarContraseña', login_required(views.CambiarContraseña), name='CambiarContraseña'),

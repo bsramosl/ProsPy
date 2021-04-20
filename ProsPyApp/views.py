@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, RedirectView
 from django.contrib.auth.models import User
-from .forms import UsuarioForm, LoginForm, ContraseñaForm, UsuForm, CaBatchForm
+from .forms import *
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -27,33 +27,6 @@ class ModeloReact(TemplateView):
 class TiempoCultivo(TemplateView):
     template_name = 'tiempo_cultivo.html'
 
-
-class GuardarReactor(CreateView):
-    model = CaBatch
-    form_class = CaBatchForm
-    template_name = 'cabatch_registro_modal.html'
-
-    def post(self, request, *args, **kwargs):
-        if request.is_ajax():
-            form = self.form_class(request.POST)
-            if form.is_valid():
-                reactor = CaBatch()
-                reactor.save()
-                mensaje = f'{self.model.__name__} guardado correctamente'
-                error = 'No hay error'
-                response = JsonResponse({'mensaje': mensaje, 'error': error})
-                response.status_code = 201
-                return response
-            else:
-                mensaje = f'{self.model.__name__} no se pudo guardar correctamente'
-                error = form.errors
-                response = JsonResponse({'mensaje': mensaje, 'error': error})
-                response.status_code = 400
-                return response
-        else:
-            return redirect('PosPy:ModeloReact')
-
-
 class Admin(TemplateView):
     model = User
     template_name = 'admin.html'
@@ -61,14 +34,16 @@ class Admin(TemplateView):
     def get_context_data(self, **kwargs):
         activo = User.objects.filter(is_active=True).count()
         inactivo = User.objects.filter(is_active=False).count()
-
         nuevo = User.objects.filter(date_joined__gt=date.today()).count()
-
+        organismo = Bacteria.objects.count()
+        tiporeactor = TipoReactor
         context = super().get_context_data(**kwargs)
         context['activos'] = activo
         context['inactivos'] = inactivo
         context['usuarios'] = activo + inactivo
         context['nuevo'] = nuevo
+        context['organismo'] = organismo
+        context['tiporeactor'] = tiporeactor
 
         return context
 
@@ -218,6 +193,32 @@ class TipoReactor(ListView):
             return redirect('ProsPy:LUTipoReactor')
 
 
+
+class EditarTipoReactor(UpdateView):
+    model = TipoReactor
+    form_class = TipoReactorForm
+    template_name = 'editar_tiporeactor_modal.html'
+
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            form = self.form_class(request.POST, instance=self.get_object())
+            if form.is_valid():
+                form.save()
+                mensaje = f'{self.model.__name__} actualizado correctamente'
+                error = 'No hay error'
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 201
+                return response
+            else:
+                mensaje = f'{self.model.__name__} no se pudo actualizar correctamente'
+                error = form.errors
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 400
+                return response
+        else:
+            return redirect('ProsPy:LUTipoReactor')
+
+
 class LUOrganismo(TemplateView):
     template_name = 'tabla_organismo.html'
 
@@ -261,3 +262,31 @@ class CaBatch(ListView):
             return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
         else:
             return redirect('ProsPy:LUCaBatch')
+
+
+class GuardarReactor(CreateView):
+    model = CaBatch
+    form_class = CaBatchForm
+    template_name = 'cabatch_registro_modal.html'
+
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            form = self.form_class(request.POST)
+            if form.is_valid():
+                form.save()
+                mensaje = f'{self.model.__name__} guardado correctamente'
+                error = 'No hay error'
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 201
+                return response
+            else:
+                mensaje = f'{self.model.__name__} no se pudo guardar correctamente'
+                error = 'no se pudo guardar'
+                response = JsonResponse({'mensaje': mensaje, 'error': error})
+                response.status_code = 400
+                return response
+        else:
+            return redirect('PosPy:ModeloReact')
+
+
+
