@@ -319,9 +319,9 @@ function eliminar(pk) {
 
 function editartiporeactor() {
     $.ajax({
-        data: $('#form_editartipo').serialize(),
-        url: $('#form_editartipo').attr('action'),
-        type: $('#form_editartipo').attr('method'),
+        data: $('#form_editar').serialize(),
+        url: $('#form_editar').attr('action'),
+        type: $('#form_editar').attr('method'),
         success: function (response) {
             notificacionSuccess(response.mensaje);
             listarTipo();

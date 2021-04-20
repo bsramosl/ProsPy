@@ -27,6 +27,7 @@ class ModeloReact(TemplateView):
 class TiempoCultivo(TemplateView):
     template_name = 'tiempo_cultivo.html'
 
+
 class Admin(TemplateView):
     model = User
     template_name = 'admin.html'
@@ -193,8 +194,20 @@ class TipoReactor(ListView):
             return redirect('ProsPy:LUTipoReactor')
 
 
-
 class EditarTipoReactor(UpdateView):
+    models = TipoReactor
+    form_class = TipoReactorForm
+    template_name = 'editar_tiporeactor_modal.html'
+    success_url = reverse_lazy('ProsPy:LUTipoReactor')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tipo'] = TipoReactor.objects.all()
+        return context
+
+
+
+class EditarTipoReactorS(UpdateView):
     model = TipoReactor
     form_class = TipoReactorForm
     template_name = 'editar_tiporeactor_modal.html'
@@ -287,6 +300,3 @@ class GuardarReactor(CreateView):
                 return response
         else:
             return redirect('PosPy:ModeloReact')
-
-
-
